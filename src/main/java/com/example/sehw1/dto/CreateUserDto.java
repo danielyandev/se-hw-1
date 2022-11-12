@@ -1,19 +1,6 @@
-package com.example.sehw1.persistence;
+package com.example.sehw1.dto;
 
-import com.example.sehw1.dto.CreateUserDto;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue
-    private long id;
-
+public class CreateUserDto {
     private String firstName;
 
     private String lastName;
@@ -22,11 +9,8 @@ public class User {
 
     private String password;
 
-    public User() {
-    }
+    public CreateUserDto() {
 
-    public long getId() {
-        return id;
     }
 
     public String getFirstName() {
@@ -59,12 +43,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void fill(CreateUserDto dto) {
-        setFirstName(dto.getFirstName());
-        setLastName(dto.getLastName());
-        setEmail(dto.getEmail());
-        setPassword(dto.getPassword());
     }
 }
