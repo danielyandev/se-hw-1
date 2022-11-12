@@ -3,6 +3,7 @@ package com.example.sehw1.presentation.mock;
 import com.example.sehw1.persistence.User;
 import com.example.sehw1.persistence.UserRepository;
 
+import java.util.LinkedList;
 import java.util.Optional;
 
 public class UserRepositoryMock implements UserRepository {
@@ -33,7 +34,7 @@ public class UserRepositoryMock implements UserRepository {
 
     @Override
     public Iterable<User> findAll() {
-        return null;
+        return new LinkedList<>();
     }
 
     @Override

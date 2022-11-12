@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -15,6 +18,25 @@ public class UserController {
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    /**
+     * Get all users
+     *
+     * @return
+     */
+    public ResponseEntity<List<UserDto>> getAll() {
+        Iterable<User> users = userRepository.findAll();
+        List<UserDto> list = new LinkedList<>();
+
+        // populate list
+        for (User user: users) {
+            UserDto dto = new UserDto();
+            dto.fill(user);
+            list.add(dto);
+        }
+
+        return ResponseEntity.ok().body(list);
     }
 
     /**

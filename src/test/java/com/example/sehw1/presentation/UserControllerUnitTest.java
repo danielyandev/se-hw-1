@@ -2,13 +2,17 @@ package com.example.sehw1.presentation;
 
 import com.example.sehw1.dto.CreateUserDto;
 import com.example.sehw1.dto.UserDto;
+import com.example.sehw1.persistence.User;
 import com.example.sehw1.presentation.mock.UserRepositoryMock;
+import com.example.sehw1.presentation.mock.UserRepositoryMockWithUsersData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.assertj.core.api.Assertions;
+
+import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -124,5 +128,30 @@ public class UserControllerUnitTest {
         Assertions.assertThat(user.getError()).isEqualTo(
                 "First name is required. Last name is required. Email is required. Password is required."
         );
+    }
+
+    @Test
+    void testGetAllUsersWhenEmpty() {
+        ResponseEntity<List<UserDto>> result = userController.getAll();
+
+        Assertions.assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(result.getBody()).isEmpty();
+    }
+
+    @Test
+    void testGetAllUsersWhenNotEmpty() {
+        userController = new UserController(new UserRepositoryMockWithUsersData());
+        ResponseEntity<List<UserDto>> result = userController.getAll();
+        List<UserDto> list = result.getBody();
+
+        Assertions.assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(list).isNotEmpty();
+
+        for (UserDto userDto: list) {
+            Assertions.assertThat(userDto.getError()).isNull();
+            Assertions.assertThat(userDto.getFirstName()).isNotNull();
+            Assertions.assertThat(userDto.getLastName()).isNotNull();
+            Assertions.assertThat(userDto.getEmail()).isNotNull();
+        }
     }
 }
