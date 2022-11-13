@@ -131,6 +131,27 @@ public class UserControllerUnitTest {
     }
 
     @Test
+    void testCreateUserWithEmptyFields() {
+        final CreateUserDto dto = new CreateUserDto();
+        dto.setFirstName("");
+        dto.setLastName("");
+        dto.setEmail(" ");
+        dto.setPassword(" ");
+
+        ResponseEntity<UserDto> result = userController.create(dto);
+        UserDto user = result.getBody();
+
+        Assertions.assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThat(user).isNotNull();
+        Assertions.assertThat(user.getFirstName()).isNull();
+        Assertions.assertThat(user.getLastName()).isNull();
+        Assertions.assertThat(user.getEmail()).isNull();
+        Assertions.assertThat(user.getError()).isEqualTo(
+                "First name is required. Last name is required. Email is required. Password is required."
+        );
+    }
+
+    @Test
     void testGetAllUsersWhenEmpty() {
         ResponseEntity<List<UserDto>> result = userController.getAll();
 

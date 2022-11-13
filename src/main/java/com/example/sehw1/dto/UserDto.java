@@ -1,7 +1,9 @@
 package com.example.sehw1.dto;
 
 import com.example.sehw1.persistence.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
     private String firstName;
 

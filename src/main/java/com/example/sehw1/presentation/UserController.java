@@ -25,6 +25,7 @@ public class UserController {
      *
      * @return
      */
+    @GetMapping
     public ResponseEntity<List<UserDto>> getAll() {
         Iterable<User> users = userRepository.findAll();
         List<UserDto> list = new LinkedList<>();
@@ -76,22 +77,22 @@ public class UserController {
         String message = "";
         String delimiter = "";
 
-        if (dto.getFirstName() == null) {
+        if (dto.getFirstName() == null || dto.getFirstName().isBlank()) {
             message += "First name is required.";
             delimiter = " ";
         }
 
-        if (dto.getLastName() == null) {
+        if (dto.getLastName() == null || dto.getLastName().isBlank()) {
             message += delimiter + "Last name is required.";
             delimiter = " ";
         }
 
-        if (dto.getEmail() == null) {
+        if (dto.getEmail() == null  || dto.getEmail().isBlank()) {
             message += delimiter + "Email is required.";
             delimiter = " ";
         }
 
-        if (dto.getPassword() == null) {
+        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
             message += delimiter + "Password is required.";
         }
 
